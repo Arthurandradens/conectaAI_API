@@ -6,8 +6,8 @@ CREATE TABLE users (
                        registration_number VARCHAR(50) UNIQUE, -- Campo de matrícula opcional
                        password VARCHAR(255) NOT NULL,
                        role VARCHAR(50) NOT NULL,
-                       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+                       created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                       updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 -- Tabela events
@@ -16,7 +16,7 @@ CREATE TABLE events (
                         title VARCHAR(255) NOT NULL,
                         description TEXT,
                         location VARCHAR(255),
-                        event_date TIMESTAMP,
+                        event_date DATETIME,
                         created_by INT,
                         FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE CASCADE
 );
