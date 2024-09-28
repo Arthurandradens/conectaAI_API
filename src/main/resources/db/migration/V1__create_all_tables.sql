@@ -25,7 +25,13 @@ CREATE TABLE events (
 CREATE TABLE institutions (
                               id INT PRIMARY KEY AUTO_INCREMENT,
                               user_id INT,
-                              address VARCHAR(100),
+                              street VARCHAR(30),
+                              neighborhood VARCHAR(30),
+                              postal_code VARCHAR(30),
+                              number VARCHAR(30),
+                              additional_info VARCHAR(30),
+                              city VARCHAR(30),
+                              state VARCHAR(30),
                               phone VARCHAR(11),
                               FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
@@ -35,6 +41,7 @@ CREATE TABLE teachers (
                           id INT PRIMARY KEY AUTO_INCREMENT,
                           user_id INT,
                           institution_id INT,
+                          campus varchar(50),
                           FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
                           FOREIGN KEY (institution_id) REFERENCES institutions(id) ON DELETE CASCADE
 );
@@ -44,6 +51,7 @@ CREATE TABLE students (
                           id INT PRIMARY KEY AUTO_INCREMENT,
                           user_id INT,
                           course VARCHAR(50),
+                          campus varchar(50),
                           FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
