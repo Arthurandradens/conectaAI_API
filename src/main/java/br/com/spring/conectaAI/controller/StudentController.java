@@ -18,13 +18,13 @@ public class StudentController {
     @Autowired
     UserRepository userRepository;
     @GetMapping
-    public ResponseEntity getAllStudents(){
+    public ResponseEntity getAll(){
        var students = repository.findAll();
 
        return ResponseEntity.ok(students);
     }
     @PostMapping
-    public ResponseEntity createStudent(@RequestBody @Valid StudentRequestDTO data){
+    public ResponseEntity create(@RequestBody @Valid StudentRequestDTO data){
         var user = userRepository.findById(data.userId()).orElseThrow(() -> new RuntimeException("User not found"));
         var student = new Student(data,user);
         repository.save(student);

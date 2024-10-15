@@ -17,7 +17,7 @@ public class InstitutionController {
     InstitutionService service;
 
     @PostMapping
-    public ResponseEntity createInstitute(@RequestBody @Valid InstitutionRequestDTO data){
+    public ResponseEntity create(@RequestBody @Valid InstitutionRequestDTO data){
         service.createInstitution(data);
 
         return ResponseEntity.ok("Institute Created");
