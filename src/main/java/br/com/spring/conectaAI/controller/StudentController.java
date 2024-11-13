@@ -2,8 +2,10 @@ package br.com.spring.conectaAI.controller;
 
 import br.com.spring.conectaAI.domain.student.Student;
 import br.com.spring.conectaAI.domain.student.StudentRequestDTO;
+import br.com.spring.conectaAI.domain.student.StudentUpdateDTO;
 import br.com.spring.conectaAI.repository.StudentRepository;
 import br.com.spring.conectaAI.repository.UserRepository;
+import br.com.spring.conectaAI.service.StudentService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +19,8 @@ public class StudentController {
     StudentRepository repository;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    StudentService service;
     @GetMapping
     public ResponseEntity getAll(){
        var students = repository.findAll();
@@ -30,6 +34,12 @@ public class StudentController {
         repository.save(student);
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity update(@RequestBody StudentUpdateDTO data,@PathVariable Long id){
+        service.updateStudent(data,id);
+        return ResponseEntity.ok().build();
     }
 
 }

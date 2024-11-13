@@ -28,4 +28,10 @@ public class Institution {
         this.address = new Address(data.address());
         this.phone = data.phone();
     }
+
+    public Institution(User user) {
+        this.user = user;
+        this.address = null;
+        this.phone = "";
+    }
 }

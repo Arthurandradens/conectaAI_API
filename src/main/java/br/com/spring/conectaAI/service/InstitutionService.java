@@ -2,6 +2,7 @@ package br.com.spring.conectaAI.service;
 
 import br.com.spring.conectaAI.domain.institution.InstitutionRequestDTO;
 import br.com.spring.conectaAI.domain.institution.Institution;
+import br.com.spring.conectaAI.domain.user.User;
 import br.com.spring.conectaAI.domain.user.UserRole;
 import br.com.spring.conectaAI.repository.InstitutionRepository;
 import br.com.spring.conectaAI.repository.UserRepository;
@@ -21,5 +22,10 @@ public class InstitutionService {
             repository.save(institution);
         }
 
+    }
+
+    public void create(User user) {
+        var institution = new Institution(user);
+        repository.save(institution);
     }
 }
