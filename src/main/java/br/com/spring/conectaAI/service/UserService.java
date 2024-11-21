@@ -1,9 +1,7 @@
 package br.com.spring.conectaAI.service;
 
-import br.com.spring.conectaAI.domain.student.Student;
-import br.com.spring.conectaAI.domain.user.ResgisterDTO;
+import br.com.spring.conectaAI.domain.user.RegisterDTO;
 import br.com.spring.conectaAI.domain.user.User;
-import br.com.spring.conectaAI.domain.user.UserRole;
 import br.com.spring.conectaAI.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,17 +23,17 @@ public class UserService {
         return repository.findByEmail(email);
     }
 
-    public void createUser(ResgisterDTO data) {
+    public void createUser(RegisterDTO data) {
 
         var passwordEncrypted = new BCryptPasswordEncoder().encode(data.password());
         var newUser = new User(data.regNumber(),data.name(),data.email(),passwordEncrypted,data.role());
 
         try{
-            repository.save(newUser);
+           repository.save(newUser);
             switch (newUser.getRole()){
-                case UserRole.INSTITUTE -> createInstitutionUser(newUser);
-                case UserRole.TEACHER -> createTeacherUser(newUser);
-                case UserRole.STUDENT -> createStudentUser(newUser);
+                case INSTITUTE -> createInstitutionUser(newUser);
+                case TEACHER -> createTeacherUser(newUser);
+                case STUDENT -> createStudentUser(newUser);
             }
 
         }catch (Exception exception){

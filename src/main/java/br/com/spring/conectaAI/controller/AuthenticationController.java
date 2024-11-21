@@ -3,7 +3,7 @@ package br.com.spring.conectaAI.controller;
 import br.com.spring.conectaAI.domain.infra.security.TokenService;
 import br.com.spring.conectaAI.domain.user.AuthenticationDTO;
 import br.com.spring.conectaAI.domain.user.LoginResponseDTO;
-import br.com.spring.conectaAI.domain.user.ResgisterDTO;
+import br.com.spring.conectaAI.domain.user.RegisterDTO;
 import br.com.spring.conectaAI.domain.user.User;
 import br.com.spring.conectaAI.service.UserService;
 import jakarta.validation.Valid;
@@ -32,7 +32,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity register(@RequestBody @Valid ResgisterDTO data){
+    public ResponseEntity register(@RequestBody @Valid RegisterDTO data){
         if (service.findByEmail(data.email()) != null) return ResponseEntity.badRequest().build();
         service.createUser(data);
         return ResponseEntity.ok().build();

@@ -4,7 +4,6 @@ import br.com.spring.conectaAI.domain.event.Event;
 import br.com.spring.conectaAI.domain.event.EventRequestDTO;
 import br.com.spring.conectaAI.domain.event.EventResponseDTO;
 import br.com.spring.conectaAI.domain.event.EventUpdateRequestDTO;
-import br.com.spring.conectaAI.domain.user.UserRole;
 import br.com.spring.conectaAI.mapper.GenericMapper;
 import br.com.spring.conectaAI.repository.EventRepository;
 import br.com.spring.conectaAI.repository.UserRepository;
@@ -40,13 +39,13 @@ public class EventService {
         return convertObjectToDestiny(event,EventResponseDTO.class);
     }
 
-    public EventResponseDTO saveEvent(EventRequestDTO request, UserDetails authUser) {
+    public void createEvent(EventRequestDTO request, UserDetails authUser) {
         var user = userRepository.findUserByEmail(authUser.getUsername());
         var event = new Event(request, user);
 
         repository.save(event);
 
-        return convertObjectToDestiny(event,EventResponseDTO.class);
+        convertObjectToDestiny(event, EventResponseDTO.class);
     }
 
     public void deleteEvent(Long id) {

@@ -36,7 +36,7 @@ public class EventController {
     @PostMapping
     @Transactional
     public ResponseEntity<Void> create(@RequestBody EventRequestDTO request,@AuthenticationPrincipal UserDetails userDetails) {
-        service.saveEvent(request,userDetails);
+        service.createEvent(request,userDetails);
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

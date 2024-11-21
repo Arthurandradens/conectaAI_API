@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
-public record ResgisterDTO(
+public record RegisterDTO(
         @NotBlank
         String name,
         @Email

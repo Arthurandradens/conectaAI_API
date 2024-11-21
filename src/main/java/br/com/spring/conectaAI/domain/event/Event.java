@@ -36,6 +36,10 @@ public class Event {
         this.createdBy = user;
     }
 
+    public Event(String title, String sentence, String city, LocalDateTime localDateTime, User user) {
+
+    }
+
     public void updateInfo(EventUpdateRequestDTO data) {
         if (data.title() != null) this.title = data.title();
 
