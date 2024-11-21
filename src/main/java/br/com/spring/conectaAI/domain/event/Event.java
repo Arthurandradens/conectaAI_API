@@ -2,19 +2,13 @@ package br.com.spring.conectaAI.domain.event;
 
 import br.com.spring.conectaAI.domain.user.User;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-
 
 import java.time.LocalDateTime;
 
 // com o lombok a gente não precisa criar os getters e nem os construtores
 // a gente não vai usar nenhum setter justamente pq a incercão dos dados vai
 // ser via construtor
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
+
 @Entity(name = "events")
 public class Event {
     @Id
@@ -36,7 +30,7 @@ public class Event {
         this.createdBy = user;
     }
 
-    public Event(String title, String sentence, String city, LocalDateTime localDateTime, User user) {
+    public Event() {
 
     }
 
@@ -49,5 +43,29 @@ public class Event {
 
         if (data.eventDate() != null) this.eventDate = data.eventDate();
 
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public LocalDateTime getEventDate() {
+        return eventDate;
+    }
+
+    public User getCreatedBy() {
+        return createdBy;
     }
 }

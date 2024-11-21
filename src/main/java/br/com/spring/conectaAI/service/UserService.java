@@ -8,6 +8,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import static br.com.spring.conectaAI.domain.user.UserRole.*;
+
 @Service
 public class UserService {
     @Autowired

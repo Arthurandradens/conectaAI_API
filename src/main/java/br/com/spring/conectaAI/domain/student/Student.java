@@ -2,16 +2,8 @@ package br.com.spring.conectaAI.domain.student;
 
 import br.com.spring.conectaAI.domain.user.User;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Entity(name = "students")
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@EqualsAndHashCode(of = "id")
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,6 +19,9 @@ public class Student {
         this.campus = data.campus();
     }
 
+    public Student() {
+    }
+
     public Student(User user) {
         this.user = user;
         this.course = "";
@@ -36,5 +31,21 @@ public class Student {
     public void updateInfo(StudentUpdateDTO data) {
         if (data.course() != null) this.course = data.course();
         if (data.campus() != null) this.campus = data.campus();
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public String getCourse() {
+        return course;
+    }
+
+    public String getCampus() {
+        return campus;
     }
 }

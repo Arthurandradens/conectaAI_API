@@ -3,16 +3,8 @@ package br.com.spring.conectaAI.domain.institution;
 import br.com.spring.conectaAI.domain.institution.address.Address;
 import br.com.spring.conectaAI.domain.user.User;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Entity(name = "institutions")
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@EqualsAndHashCode(of = "id")
 public class Institution {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,5 +25,21 @@ public class Institution {
         this.user = user;
         this.address = null;
         this.phone = "";
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public String getPhone() {
+        return phone;
     }
 }

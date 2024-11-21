@@ -3,14 +3,9 @@ package br.com.spring.conectaAI.domain.teacher;
 import br.com.spring.conectaAI.domain.institution.Institution;
 import br.com.spring.conectaAI.domain.user.User;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Entity(name = "teachers")
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
+
 public class Teacher {
     @Id
     private long id;
@@ -26,5 +21,21 @@ public class Teacher {
         this.user = user;
         this.institution = null;
         this.campus = "";
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public Institution getInstitution() {
+        return institution;
+    }
+
+    public String getCampus() {
+        return campus;
     }
 }
