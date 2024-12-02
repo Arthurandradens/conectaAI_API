@@ -3,6 +3,7 @@ package br.com.spring.conectaAI.controller;
 import br.com.spring.conectaAI.domain.event.EventRequestDTO;
 import br.com.spring.conectaAI.domain.event.EventResponseDTO;
 import br.com.spring.conectaAI.domain.event.EventUpdateRequestDTO;
+import br.com.spring.conectaAI.domain.event.enrollment.EnrollmentResponse;
 import br.com.spring.conectaAI.service.EventService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,4 +55,18 @@ public class EventController {
             service.deleteEvent(id);
             return ResponseEntity.noContent().build();
     }
+
+    @PostMapping("/{id}/enroll")
+    @Transactional
+    public ResponseEntity<Void> enroll(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails){
+        service.enrollUser(id,userDetails);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @GetMapping("/enroll")
+    public ResponseEntity<List<EnrollmentResponse>> getEnrollments(@AuthenticationPrincipal UserDetails userDetails){
+       var enrollments = service.getAllEnrollmentsByUser(userDetails);
+       return ResponseEntity.ok(enrollments);
+    }
+
 }

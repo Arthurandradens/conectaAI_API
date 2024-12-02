@@ -6,6 +6,7 @@ import br.com.spring.conectaAI.domain.student.StudentUpdateDTO;
 import br.com.spring.conectaAI.repository.StudentRepository;
 import br.com.spring.conectaAI.repository.UserRepository;
 import br.com.spring.conectaAI.service.StudentService;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,6 +29,7 @@ public class StudentController {
        return ResponseEntity.ok(students);
     }
     @PostMapping
+    @Transactional
     public ResponseEntity create(@RequestBody @Valid StudentRequestDTO data){
         var user = userRepository.findById(data.userId()).orElseThrow(() -> new RuntimeException("User not found"));
         var student = new Student(data,user);
@@ -37,6 +39,7 @@ public class StudentController {
     }
 
     @PutMapping("/{id}")
+    @Transactional
     public ResponseEntity update(@RequestBody StudentUpdateDTO data,@PathVariable Long id){
         service.updateStudent(data,id);
         return ResponseEntity.ok().build();

@@ -16,6 +16,7 @@ public class User implements UserDetails {
     private Long id;
     private String name;
     private String email;
+    @JoinColumn(name = "registration_number")
     private String registrationNumber;
     private String password;
     @Enumerated(EnumType.STRING)

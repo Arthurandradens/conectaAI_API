@@ -2,6 +2,7 @@ package br.com.spring.conectaAI.controller;
 
 import br.com.spring.conectaAI.domain.institution.InstitutionRequestDTO;
 import br.com.spring.conectaAI.service.InstitutionService;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ public class InstitutionController {
     InstitutionService service;
 
     @PostMapping
+    @Transactional
     public ResponseEntity create(@RequestBody @Valid InstitutionRequestDTO data){
         service.createInstitution(data);
 

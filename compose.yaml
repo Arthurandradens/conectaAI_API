@@ -1,14 +1,13 @@
-version: "3.8"
-
 services:
   mysqldb:
-    image: mysql:8.0.33
+    image: mysql:5.7
     restart: unless-stopped
+    env_file: ./.env
     environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=conectaedu
+      - MYSQL_ROOT_PASSWORD=$MYSQLDB_ROOT_PASSWORD
+      - MYSQL_DATABASE=$MYSQLDB_DATABASE
     ports:
-      - "3307:3306"
+      - $MYSQLDB_LOCAL_PORT:$MYSQLDB_DOCKER_PORT
     volumes:
       - mysqlvolume:/var/lib/mysql
   app:
@@ -20,12 +19,13 @@ services:
     working_dir: /usr/src/conectaedu
     container_name: conectaedu
     restart: on-failure
+    env_file: ./.env
     ports:
-      - "8080:8080"
+      - $SPRING_LOCAL_PORT:$SPRING_DOCKER_PORT
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysqldb:3306/conectaedu?useSSL=false&createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true
-      - SPRING_DATASOURCE_USERNAME=root
-      - SPRING_DATASOURCE_PASSWORD=root
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysqldb:$MYSQLDB_DOCKER_PORT/$MYSQLDB_DATABASE?useSSL=false&createDatabaseIfNotExist=true
+      - SPRING_DATASOURCE_USERNAME=$MYSQLDB_USER
+      - SPRING_DATASOURCE_PASSWORD=$MYSQLDB_ROOT_PASSWORD
       - API_SECURITY_TOKEN_SECRET=12345
     volumes:
       - .m2:/root/.m2
