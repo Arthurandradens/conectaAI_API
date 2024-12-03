@@ -4,6 +4,8 @@ import br.com.spring.conectaAI.domain.student.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.Optional;
+
 public interface StudentRepository extends JpaRepository<Student,Long> {
 
     @Query("""
@@ -12,5 +14,5 @@ public interface StudentRepository extends JpaRepository<Student,Long> {
             inner join users u on (u.email = :username)
             where s.user.id = u.id\s
            \s""")
-    Student findByUserName(String username);
+    Optional<Student> findByUserName(String username);
 }

@@ -1,12 +1,11 @@
 package br.com.spring.conectaAI.service;
 
-import br.com.spring.conectaAI.domain.event.*;
-import br.com.spring.conectaAI.domain.event.enrollment.Enrollment;
-import br.com.spring.conectaAI.domain.event.enrollment.EnrollmentResponse;
+import br.com.spring.conectaAI.domain.event.Event;
+import br.com.spring.conectaAI.domain.event.EventRequestDTO;
+import br.com.spring.conectaAI.domain.event.EventResponseDTO;
+import br.com.spring.conectaAI.domain.event.EventUpdateRequestDTO;
 import br.com.spring.conectaAI.mapper.GenericMapper;
-import br.com.spring.conectaAI.repository.EnrollmentRepository;
 import br.com.spring.conectaAI.repository.EventRepository;
-import br.com.spring.conectaAI.repository.StudentRepository;
 import br.com.spring.conectaAI.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -30,10 +29,7 @@ public class EventService {
 
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    StudentRepository studentRepository;
-    @Autowired
-    private EnrollmentRepository enrollmentRepository;
+
 
     public List<EventResponseDTO> getAllEvents() {
         return repository.findAll().stream().map(EventResponseDTO::new).toList();
@@ -68,24 +64,4 @@ public class EventService {
        }
     }
 
-    public void enrollUser(Long id, UserDetails authUser) {
-        var student = studentRepository.findByUserName(authUser.getUsername());
-        var event = repository.findById(id);
-
-        if (event.isPresent() && authUser.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_STUDENT"))){
-            var enrollment = new Enrollment(event.get(),student);
-            enrollmentRepository.save(enrollment);
-        } else{
-            throw new RuntimeException("The event doesn't exist or the user id not valid");
-        }
-    }
-
-    public List<EnrollmentResponse> getAllEnrollmentsByUser(UserDetails authUser) {
-        var student = studentRepository.findByUserName(authUser.getUsername());
-        var enrollments = enrollmentRepository.findAllByStudentId(student.getId());
-        if (!enrollments.isEmpty()){
-            return enrollments.stream().map(EnrollmentResponse::new).toList();
-        }
-       throw new RuntimeException("this user doesn't have any enrollment");
-    }
 }
