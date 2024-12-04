@@ -27,12 +27,12 @@ public class AuthenticationController {
     @PostMapping("/login")
     @Transactional
     public ResponseEntity login(@RequestBody @Valid AuthenticationDTO data){
-        var user = service.findByLogin(data.login());
+        var user = service.findUserByLogin(data.login());
         var usernamePassword = new UsernamePasswordAuthenticationToken(user.getUsername(),data.password());
         var auth = authenticationManager.authenticate(usernamePassword);
 
         var token = tokenService.generateToken((User) auth.getPrincipal());
-        return ResponseEntity.ok(new LoginResponseDTO(token));
+        return ResponseEntity.ok(new LoginResponseDTO(user,token));
     }
 
     @PostMapping("/register")

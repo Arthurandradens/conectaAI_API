@@ -28,7 +28,7 @@ public class EventService {
     private GenericMapper<Event,EventResponseDTO> mapper;
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
 
     public List<EventResponseDTO> getAllEvents() {
@@ -41,7 +41,7 @@ public class EventService {
     }
 
     public void createEvent(EventRequestDTO request, UserDetails authUser) {
-        var user = userRepository.findUserByEmail(authUser.getUsername());
+        var user = userService.findUserByLogin(authUser.getUsername());
         var event = new Event(request, user);
 
         repository.save(event);

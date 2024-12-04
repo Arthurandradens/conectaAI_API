@@ -60,9 +60,15 @@ public class UserService {
         institutionService.create(user);
     }
 
-    public UserDetails findByLogin(@NotBlank String login) {
+    public UserDetails findByLogin(String login) {
         return repository.findByEmail(login)
                 .or(() -> repository.findByRegistrationNumber(login))
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    }
+
+    public User findUserByLogin(String login){
+        return repository.findUserByEmail(login)
+                .or(() -> repository.findUserByRegistrationNumber(login))
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 }
