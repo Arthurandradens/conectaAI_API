@@ -9,6 +9,7 @@ import br.com.spring.conectaAI.service.UserService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -26,7 +27,8 @@ public class AuthenticationController {
     @PostMapping("/login")
     @Transactional
     public ResponseEntity login(@RequestBody @Valid AuthenticationDTO data){
-        var usernamePassword = new UsernamePasswordAuthenticationToken(data.email(),data.password());
+        var user = service.findByLogin(data.login());
+        var usernamePassword = new UsernamePasswordAuthenticationToken(user.getUsername(),data.password());
         var auth = authenticationManager.authenticate(usernamePassword);
 
         var token = tokenService.generateToken((User) auth.getPrincipal());
@@ -36,9 +38,9 @@ public class AuthenticationController {
     @PostMapping("/register")
     @Transactional
     public ResponseEntity register(@RequestBody @Valid RegisterDTO data){
-        if (service.findByEmail(data.email()) != null) return ResponseEntity.badRequest().build();
+        if (service.findByEmail(data.email()).isPresent()) return ResponseEntity.badRequest().build();
         service.createUser(data);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
 

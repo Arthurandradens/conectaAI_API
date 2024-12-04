@@ -7,7 +7,7 @@ target/
 
 #enviroment
 .env
-
+*.properties
 ### STS ###
 .apt_generated
 .classpath

@@ -3,10 +3,14 @@ package br.com.spring.conectaAI.service;
 import br.com.spring.conectaAI.domain.user.RegisterDTO;
 import br.com.spring.conectaAI.domain.user.User;
 import br.com.spring.conectaAI.repository.UserRepository;
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 import static br.com.spring.conectaAI.domain.user.UserRole.*;
 
@@ -21,7 +25,7 @@ public class UserService {
     @Autowired
     TeacherService teacherService;
 
-    public UserDetails findByEmail(String email){
+    public Optional<UserDetails> findByEmail(String email){
         return repository.findByEmail(email);
     }
 
@@ -54,5 +58,11 @@ public class UserService {
 
     private void createInstitutionUser(User user){
         institutionService.create(user);
+    }
+
+    public UserDetails findByLogin(@NotBlank String login) {
+        return repository.findByEmail(login)
+                .or(() -> repository.findByRegistrationNumber(login))
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 }

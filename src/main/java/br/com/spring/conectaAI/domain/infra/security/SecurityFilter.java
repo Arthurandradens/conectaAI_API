@@ -11,6 +11,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
@@ -21,14 +22,13 @@ public class SecurityFilter extends OncePerRequestFilter {
     @Autowired
     TokenService service;
     @Autowired
-    UserRepository repository;
+    UserService userService;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         var token = recoverToken(request);
           if (token != null){
             var email = service.validateToken(token);
-              UserDetails user = repository.findByEmail(email);
-
+              var user = userService.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("user not found"));
               var authentication = new UsernamePasswordAuthenticationToken(user,null,user.getAuthorities());
               SecurityContextHolder.getContext().setAuthentication(authentication);
           }
