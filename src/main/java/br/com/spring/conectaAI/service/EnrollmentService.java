@@ -37,10 +37,10 @@ public class EnrollmentService {
     public List<EnrollmentResponse> getAllEnrollmentsByUser(UserDetails authUser) {
         var student = studentRepository.findByUserName(authUser.getUsername()).orElseThrow(() -> new RuntimeException("User do not exist"));
         var enrollments = repository.findAllByStudentId(student.getId());
-        if (!enrollments.isEmpty()){
-            return enrollments.stream().map(EnrollmentResponse::new).toList();
-        }
-        throw new RuntimeException("this user doesn't have any enrollment");
+
+        return enrollments.stream().map(EnrollmentResponse::new).toList();
+
+
     }
 
     public void unrollUser(Long id, UserDetails authUser) {

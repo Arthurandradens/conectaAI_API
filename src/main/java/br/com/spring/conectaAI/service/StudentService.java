@@ -6,6 +6,7 @@ import br.com.spring.conectaAI.domain.user.User;
 import br.com.spring.conectaAI.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.webjars.NotFoundException;
 
 @Service
 public class StudentService {
@@ -21,4 +22,5 @@ public class StudentService {
        student.updateInfo(data);
        repository.save(student);
     }
+
 }

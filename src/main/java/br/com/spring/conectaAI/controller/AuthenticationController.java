@@ -1,10 +1,7 @@
 package br.com.spring.conectaAI.controller;
 
 import br.com.spring.conectaAI.domain.infra.security.TokenService;
-import br.com.spring.conectaAI.domain.user.AuthenticationDTO;
-import br.com.spring.conectaAI.domain.user.LoginResponseDTO;
-import br.com.spring.conectaAI.domain.user.RegisterDTO;
-import br.com.spring.conectaAI.domain.user.User;
+import br.com.spring.conectaAI.domain.user.*;
 import br.com.spring.conectaAI.service.UserService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -24,24 +21,30 @@ public class AuthenticationController {
     UserService service;
     @Autowired
     TokenService tokenService;
+
     @PostMapping("/login")
     @Transactional
-    public ResponseEntity login(@RequestBody @Valid AuthenticationDTO data){
+    public ResponseEntity login(@RequestBody @Valid AuthenticationDTO data) {
         var user = service.findUserByLogin(data.login());
-        var usernamePassword = new UsernamePasswordAuthenticationToken(user.getUsername(),data.password());
+        var usernamePassword = new UsernamePasswordAuthenticationToken(user.getUsername(), data.password());
         var auth = authenticationManager.authenticate(usernamePassword);
 
         var token = tokenService.generateToken((User) auth.getPrincipal());
-        return ResponseEntity.ok(new LoginResponseDTO(user,token));
+        return ResponseEntity.ok(new LoginResponseDTO(user, token));
     }
 
     @PostMapping("/register")
     @Transactional
-    public ResponseEntity register(@RequestBody @Valid RegisterDTO data){
+    public ResponseEntity register(@RequestBody @Valid RegisterDTO data) {
         if (service.findByEmail(data.email()).isPresent()) return ResponseEntity.badRequest().build();
         service.createUser(data);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    @GetMapping("/login/{login}")
+    public ResponseEntity welcome(@PathVariable String login){
+       var user = service.findUserByLogin(login);
+        return ResponseEntity.ok(new WelcomeResponse(user.getName(),user.getRole()));
+    }
 
 }

@@ -1,6 +1,7 @@
 package br.com.spring.conectaAI.domain.user;
 
 import jakarta.persistence.*;
+import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,7 +17,6 @@ public class User implements UserDetails {
     private Long id;
     private String name;
     private String email;
-    @JoinColumn(name = "registration_number")
     private String registrationNumber;
     private String password;
     @Enumerated(EnumType.STRING)

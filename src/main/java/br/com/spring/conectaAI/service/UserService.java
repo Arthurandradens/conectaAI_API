@@ -1,10 +1,12 @@
 package br.com.spring.conectaAI.service;
 
+import br.com.spring.conectaAI.domain.infra.exception.ValidationExeption;
 import br.com.spring.conectaAI.domain.user.RegisterDTO;
 import br.com.spring.conectaAI.domain.user.User;
 import br.com.spring.conectaAI.repository.UserRepository;
 import jakarta.validation.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -42,8 +44,8 @@ public class UserService {
                 case STUDENT -> createStudentUser(newUser);
             }
 
-        }catch (Exception exception){
-            throw new RuntimeException(exception.getMessage());
+        }catch (DataIntegrityViolationException ex){
+            throw new ValidationExeption(ex.getMessage());
         }
     }
 
